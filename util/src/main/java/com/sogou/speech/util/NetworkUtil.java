@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
@@ -17,8 +18,6 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-
-import androidx.annotation.Nullable;
 
 /**
  * Created by Administrator on 2020/4/15.
@@ -182,18 +181,16 @@ public class NetworkUtil {
      * @param enabled
      */
     public static void setWifiEnabled(Context context, boolean enabled) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            if (context != null) {
-                @SuppressLint("WifiManagerLeak")
-                WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                if (enabled) {
-                    if (!wifiManager.isWifiEnabled()) {
-                        wifiManager.setWifiEnabled(true);
-                    }
-                } else {
-                    if (wifiManager.isWifiEnabled()) {
-                        wifiManager.setWifiEnabled(false);
-                    }
+        if (context != null) {
+            @SuppressLint("WifiManagerLeak")
+            WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            if (enabled) {
+                if (!wifiManager.isWifiEnabled()) {
+                    wifiManager.setWifiEnabled(true);
+                }
+            } else {
+                if (wifiManager.isWifiEnabled()) {
+                    wifiManager.setWifiEnabled(false);
                 }
             }
         }
